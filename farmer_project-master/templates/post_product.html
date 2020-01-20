@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+<title>Farmer Portal</title>
+ </head>
+ <body>
+<div class="bg-nav d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+  <h5 class="my-0 mr-md-auto font-weight-normal text-light"Farmer Portal</h5>
+  <nav class="my-2 my-md-0 mr-md-3 text-light">
+    <a class="p-2 text-light" href="home.html">Home</a>
+    <a class="p-2 text-light" href="#">Analysis</a>
+    <a class="p-2 text-light" href="#">Profile</a>
+    <a class="p-2 text-light" href="#">Settings</a>
+  </nav>
+  <a class="btn btn-outline-primary" href="/logout">Logout</a>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card bg-success">
+                <div class="card-body">
+                    <h2>Total Earnings</h2>
+                    <h4>50000</h4>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-info">
+                <div class="card-body">
+                    <h2>Total Earnings</h2>
+                    <h4>50000</h4>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-danger">
+                <div class="card-body">
+                    <h2>Total Earnings</h2>
+                    <h4>50000</h4>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-warning">
+                <div class="card-body">
+                    <h2>Total Earnings</h2>
+                    <h4>50000</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-3">
+            <div class="col-md-3"></div>
+            <div class="col-md-5">
+                <table class="table table-dark">
+                      <tbody>
+                          <form class="form" method="post" action="/post_validation">
+                             <tr><td><p>Create a new product </p></td></tr>
+                            <tr><td>
+                                <label>Product</label><br>
+                                <input type="text" class="form-control" name="product"><br>
+
+                            </td></tr>
+                            <tr><td>
+                            <label>Quantity</label><br>
+                            <input type="number" class="form-control" name="quantity"><br>
+                            </td></tr>
+                            <tr><td>
+                            <label>Price</label><br>
+                            <input type="number" class="form-control" name="price"><br>
+                            </td></tr>
+                              <tr><td>
+                            <label>Details</label><br>
+                            <input type="text" class="form-control" name="detail"><br>
+                            </td></tr>
+                            <tr><td>
+                            <input type="submit" class="btn btn-primary btn-block btn-lg" value="Post">
+                            </td></tr>
+                        </form>
+                      </tbody>
+                </table>
+            </div>
+
+    </div>
+
+
+</div>
+ <h1>{{  var }}</h1>
+</body>
+</html>
