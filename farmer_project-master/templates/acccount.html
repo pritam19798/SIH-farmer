@@ -14,11 +14,15 @@
  </head>
  <body>
 <div class="bg-nav d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
-  <h5 class="my-0 mr-md-auto font-weight-normal text-light">Expense App</h5>
+  <h5 class="my-0 mr-md-auto font-weight-normal text-light">Farmer portal</h5>
   <nav class="my-2 my-md-0 mr-md-3 text-light">
     <a class="p-2 text-light" href="#">Home</a>
     <a class="p-2 text-light" href="#">Analysis</a>
-    <a class="p-2 text-light" href="#">Profile</a>
+      {% if login=='f' %}
+        <a class="p-2 text-light" href="/account/profile_farmer">Profile</a>
+      {% else %}
+        <a class="p-2 text-light" href="/account/profile_vender">Profile</a>
+      {% endif %}
     <a class="p-2 text-light" href="#">Settings</a>
   </nav>
   <a class="btn btn-outline-primary" href="/logout">Logout</a>
@@ -144,6 +148,5 @@
 
 
 </div>
- <h1>{{  var }}</h1>
 </body>
 </html>
