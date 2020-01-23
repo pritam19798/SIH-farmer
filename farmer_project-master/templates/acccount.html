@@ -19,17 +19,11 @@
     <a class="p-2 text-light" href="#">Home</a>
     <a class="p-2 text-light" href="#">Analysis</a>
       {% if login=='f' %}
-<<<<<<< HEAD
         <a class="p-2 text-light" href="/account/profile_farmer">Edit Profile</a>
         <a class="p-2 text-light" href="/account/profile">Profile</a>
       {% else %}
         <a class="p-2 text-light" href="/account/profile_vender">Edit Profile</a>
         <a class="p-2 text-light" href="/account/profile">Profile</a>
-=======
-        <a class="p-2 text-light" href="/account/profile_farmer">Profile</a>
-      {% else %}
-        <a class="p-2 text-light" href="/account/profile_vender">Profile</a>
->>>>>>> 31a4a2f69087be6943a5a590665fd00666bc2ba7
       {% endif %}
     <a class="p-2 text-light" href="#">Settings</a>
   </nav>
@@ -135,7 +129,7 @@
                                     <tr><td width="70%">
                                             <div class="col-md-9">
                                                 <h2><a class="article-title" href="#">{{ prod[1] }}</a></h2>
-                                                <p class="article-content">{{ prod[3] }}kg at Rs.{{ prod[2] }}</p>
+                                                <p class="article-content">{{ prod[2] }}kg at Rs.{{ prod[3] }}</p>
                                                 <p class="article-content">{{ prod[5] }}</p>
                                             </div>
                                         </td>
@@ -187,5 +181,6 @@
 
 
 </div>
+ <h1>{{  var }}</h1>
 </body>
 </html>
