@@ -17,13 +17,15 @@
         <a href="" class="navbar-brand text-light">Farmer Portal</a>
     </nav>
 
- {% for item in profile %}
+ {% for item in data %}
 <tr>
-    <td>{{item[0]}}</td>
-    <td>{{item[1]}}</td>
+    <div class="col-md-5 mb-3 text-light">
+        <form class="form" method="get" action="/account/profile">
+    <label>{{item[0][0]}}</label><br>
+    <label>{{item[0][2]}}</label>
 </tr>
 
-{% endfor %}
+    {% endfor %}
 
 </body>
 </html>

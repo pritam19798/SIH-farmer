@@ -182,29 +182,31 @@ def profile_v():
 def profile():
     address = request.form.get('address')
     address2 = request.form.get('address2')
+    phone = request.form.get('phone_no')
     zip = request.form.get('zip')
     if session['login'] == 'f':
         cursor.execute(
-                """INSERT INTO `farmer_details` (`description_id`, `far_ID`, `address`, `address2`, `zip`) 
-             VALUES(NULL, '{}', '{}', '{}', '{}')""".format(session['farmer_ID'],address, address2, zip))
+                """INSERT INTO `farmer_details` (`description_id`, `far_ID`, `address`, `address2`, `phone_no`, `zip`) 
+             VALUES(NULL, '{}', '{}', '{}', '{}','{}')""".format(session['farmer_ID'],address, address2, phone, zip))
     else:
         cursor.execute(
-            """INSERT INTO `vender_details` (`description_id`, `vender_ID`, `address`, `address2`, `zip`) 
-         VALUES(NULL, '{}', '{}', '{}', '{}')""".format(session['vender_ID'], address, address2, zip))
+            """INSERT INTO `vender_details` (`description_id`, `vender_ID`, `address`, `address2`, `phone_no`, `zip`) 
+         VALUES(NULL, '{}', '{}', '{}', '{}','{}')""".format(session['vender_ID'], address, address2, phone, zip))
     conn.commit()
     return redirect('/account/profile')
 
 
-@app.route('/account/profile')
+@app.route('/account/profile', methods=['GET'])
 def profile_show():
     if session['login'] == 'f':
-        cursor.execute("SELECT * FROM `farmer_details`")
-        profile = cursor.fetchall()
-        return render_template('profile_show.html', data=profile)
+        cursor.execute("SELECT * FROM `farmer_details` WHERE `far_id` LIKE '{}'".format(session['farmer_ID']))
+        data = cursor.fetchall()
+        print(data[0][3])
+        return render_template('profile_show.html', data=data)
     else:
-        cursor.execute("SELECT * FROM `vender_details`")
-        profile = cursor.fetchall()
-        return render_template('profile_show.html', data=profile)
+        cursor.execute("SELECT * FROM `vender_details` WHERE `vender_ID` LIKE '{}'".format(session['vender_ID']))
+        data = cursor.fetchall()
+        return render_template('profile_show.html', data=data)
 
 
 if __name__ == "__main__":

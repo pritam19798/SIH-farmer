@@ -27,11 +27,22 @@
             </div>
 </div>
 
-<div class="mb-3 text-light">
+<div class="mb-4 text-light">
     <form class="form" method="post" action="/add_profile">
           <label for="address2">Address 2 <span class="text-muted">(Optional)</span></label>
-          <input type="text" class="form-control" name="address2" id="address2">
+          <input type="text" class="form-control" name="address2" id="address2"><br>
+          <p><input type="radio" name="user" value="f">farmer
+          <input type="radio" name="user" value="v">vender</p>
         </div>
+
+    <div class="mb-4 text-light">
+    <form class="form" method="post" action="/add_profile">
+          <label>Phone Number</label>
+          <input type="text" class="form-control" name="phone_no" id="phone_no" placeholder="" required>
+            <div class="invalid-feedback">
+            Please enter your phone number.
+            </div>
+</div>
 
 <div class="row">
           <div class="col-md-5 mb-3 text-light">
