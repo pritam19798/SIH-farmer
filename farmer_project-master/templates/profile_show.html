@@ -13,6 +13,7 @@
 <title>Farmer Portal</title>
  </head>
  <body class="bg-nav">
+<<<<<<< HEAD
      <div class="bg-nav d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
       <h5 class="my-0 mr-md-auto font-weight-normal text-light">Farmer portal</h5>
       <nav class="my-2 my-md-0 mr-md-3 text-light">
@@ -31,6 +32,21 @@
     </tr>
 
         {% endfor %}
+=======
+    <nav class="navbar bg-nav">
+        <a href="" class="navbar-brand text-light">Farmer Portal</a>
+    </nav>
+
+ {% for item in data %}
+<tr>
+    <div class="col-md-5 mb-3 text-light">
+        <form class="form" method="get" action="/account/profile">
+    <label>{{item[0][0]}}</label><br>
+    <label>{{item[0][2]}}</label>
+</tr>
+
+    {% endfor %}
+>>>>>>> 31a4a2f69087be6943a5a590665fd00666bc2ba7
 
 </body>
 </html>
