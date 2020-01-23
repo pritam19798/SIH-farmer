@@ -5,7 +5,7 @@ import os
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
 
-conn = mysql.connector.connect(host="remotemysql.com", user="5y7pgTHrDJ", password="0f1tf9vYUw",
+conn = mysql.connector.connect(host="remotemysql.com", user="5y7pgTHrDJ", password="ULlbPYdKjK",
                                database="5y7pgTHrDJ")
 
 cursor = conn.cursor()
@@ -107,11 +107,22 @@ def logout():
 @app.route('/account')
 def account():
     d={}
+    V={}
     if session['login']=='f':
         if 'farmer_ID' in session :
             cursor.execute("""SELECT * FROM `Product` WHERE `far_id` LIKE '{}'""".format(session['farmer_ID']))
             myproduct = cursor.fetchall()
-            return render_template('acccount.html',var=session['farmer_ID'],prods=myproduct,login=session['login'])
+            for i in myproduct:
+                if i[0] not in d:
+                    cursor.execute("""SELECT * FROM `Bid`  WHERE `pro_id` LIKE '{}'""".format(i[0]))
+                    f = cursor.fetchall()
+                    d[i[0]]=f
+                    for bid in f:
+                        cursor.execute("""SELECT `vender_name` FROM `Vender`  WHERE `vender_ID` LIKE '{}'""".format(bid[5]))
+                        v = cursor.fetchall()
+                        V[bid[5]]=v[0][0]
+
+            return render_template('acccount.html',var=session['farmer_ID'],prods=myproduct,d=d,V=V,login=session['login'])
         else:
             return redirect('/dunny')
     elif session['login']=='v':
@@ -149,8 +160,35 @@ def bid():
     return redirect('/account')
 
 
+@app.route('/change_price',methods=['POST'])
+def change_price():
+    new_price=int(request.form.get('new_price'))
+    prod_id=int(request.form.get('prod_id'))
+    cursor.execute(
+        """UPDATE `Product` SET `price`='{}' WHERE `far_id` LIKE '{}' AND `product_ID` LIKE '{}' """
+            .format(new_price, session['farmer_ID'], prod_id))
+    conn.commit()
+    return redirect('/account')
 
 
+
+@app.route('/sold_product',methods=['POST'])
+def sold_product():
+    sold_quantity=int(request.form.get('sold_quantity'))
+    quantity=int(request.form.get('quantity'))
+    prod_id = int(request.form.get('prod_id'))
+    np=quantity-sold_quantity
+    if(np>0):
+        cursor.execute(
+            """UPDATE `Product` SET `quantity`='{}' WHERE `far_id` LIKE '{}' AND `product_ID` LIKE '{}' """
+                .format(np, session['farmer_ID'], prod_id))
+        conn.commit()
+    elif(np<=0):
+        cursor.execute(
+            """DELETE FROM `Product` WHERE `far_id` LIKE '{}' AND `product_ID` LIKE '{}' """
+                .format(session['farmer_ID'], prod_id))
+        conn.commit()
+    return redirect('/account')
 
 
 
@@ -177,11 +215,53 @@ def post_validation():
             return redirect('/account')
         else:
             return redirect('/dunny')
+    else:
+        return redirect('/dunny')
 
 
+@app.route('/account/profile', methods=['GET'])
+def profile_show():
+    if session['login'] == 'f':
+        cursor.execute("SELECT * FROM `Farmer` WHERE `farmer_id` LIKE '{}'".format(session['farmer_ID']))
+        data = cursor.fetchall()
+        print(type(data),data)
+        return render_template('profile_show.html', data=data)
+    elif session['login'] == 'v':
+        cursor.execute("SELECT * FROM `Vender` WHERE `vender_ID` LIKE '{}'".format(session['vender_ID']))
+        data = cursor.fetchall()
+        return render_template('profile_show.html', data=data)
+    else:
+        return redirect('/dunny')
+
+@app.route('/add_profile', methods=['POST'])
+def profile():
+    address = request.form.get('address')
+    address2 = request.form.get('address2')
+    phone = request.form.get('phone_no')
+    zip = request.form.get('zip')
+    country=request.form.get('country')
+    state = request.form.get('state')
+    vill= request.form.get('village')
+    if session['login'] == 'f':
+        cursor.execute(
+                """UPDATE `Farmer` SET `phone`='{}',`address`='{}',`address2`='{}',`state`='{}',`zip`='{}',`country`='{}',`village`='{}' WHERE `farmer_ID` LIKE '{}'"""
+                    .format(phone,address, address2,state, zip,country,vill,session['farmer_ID']))
+    elif session['login'] == 'v':
+        cursor.execute(
+                """UPDATE `Vender` SET `phone`='{}',`address`='{}',`address2`='{}',`state`='{}',`zip`='{}',`country`='{}',`village`='{}' WHERE `vender_ID` LIKE '{}'"""
+                    .format(phone,address, address2,state, zip,country,vill,session['vender_ID']))
+    conn.commit()
+    return redirect('/account/profile')
 
 
+@app.route('/account/profile_farmer')
+def profile_f():
+    return render_template('profile.html', user='f')
 
+
+@app.route('/account/profile_vender')
+def profile_v():
+    return render_template('profile.html', user='v')
 
 
 

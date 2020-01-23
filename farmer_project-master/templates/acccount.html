@@ -14,11 +14,17 @@
  </head>
  <body>
 <div class="bg-nav d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
-  <h5 class="my-0 mr-md-auto font-weight-normal text-light">Expense App</h5>
+  <h5 class="my-0 mr-md-auto font-weight-normal text-light">Farmer portal</h5>
   <nav class="my-2 my-md-0 mr-md-3 text-light">
     <a class="p-2 text-light" href="#">Home</a>
     <a class="p-2 text-light" href="#">Analysis</a>
-    <a class="p-2 text-light" href="#">Profile</a>
+      {% if login=='f' %}
+        <a class="p-2 text-light" href="/account/profile_farmer">Edit Profile</a>
+        <a class="p-2 text-light" href="/account/profile">Profile</a>
+      {% else %}
+        <a class="p-2 text-light" href="/account/profile_vender">Edit Profile</a>
+        <a class="p-2 text-light" href="/account/profile">Profile</a>
+      {% endif %}
     <a class="p-2 text-light" href="#">Settings</a>
   </nav>
   <a class="btn btn-outline-primary" href="/logout">Logout</a>
@@ -68,11 +74,42 @@
                     {% for prod in prods %}
                         <article class="media content-section">
                           <div class="media-body">
-                            <div class="article-metadata">
-                            </div>
-                            <h2><a class="article-title" href="#">{{ prod[1] }}</a></h2>
-                            <p class="article-content">{{ prod[3] }}kg at Rs.{{ prod[2] }}</p>
-                              <p class="article-content">{{ prod[5] }}</p>
+                              <table>
+                                  <tr>
+                                      <td width="60%">
+                                          <div class="col-md-9">
+                                        <h2><a class="article-title" href="#">{{ prod[1] }}</a></h2>
+                                        <p class="article-content">{{ prod[2] }}kg at Rs.{{ prod[3] }}</p>
+                                        <p class="article-content">{{ prod[5] }}</p>
+                                              </div>
+                                      </td>
+                                      <td width="20%">
+                                          <div>
+                                          <form class="form" method="post" action="/change_price">
+                                              <label>Change Price</label><br>
+                                              <input type="number" min="0" class="form-control" name="new_price"><br>
+                                              <input type = "hidden" name = "prod_id" value = '{{ prod[0] }}' >
+                                              <input type="submit" class="btn btn-danger btn-block" value="change price">
+                                          </form>
+                                              </div>
+                                      </td>
+                                       <td>
+                                          <div>
+                                          <form class="form" method="post" action="/sold_product">
+                                              <label>Sold quantity</label><br>
+                                              <input type="number" min="0" max="{{ prod[2] }}" class="form-control" name="sold_quantity"><br>
+                                              <input type = "hidden" name = "prod_id" value = '{{ prod[0] }}' >
+                                              <input type = "hidden" name = "quantity" value = '{{ prod[2] }}' >
+                                              <input type="submit" class="btn btn-danger btn-block" value="sold">
+                                          </form>
+                                              </div>
+                                      </td>
+                                  </tr>
+                              </table>
+                              <hr>
+                              {% for bid in d[prod[0]] %}
+                              <p>vender : <a class="mr-2" href="#">{{ V[bid[5]] }}</a> bid at a price of {{ bid[4] }}</p>
+                              {% endfor %}
                           </div>
                         </article>
                     {% endfor %}
@@ -100,7 +137,7 @@
                                             <div >
                                                   <form class="form" method="post" action="/bid">
                                                       <label>Bid Price</label><br>
-                                                      <input type="number" class="form-control" name="bid_price"><br>
+                                                      <input type="number" min="0" class="form-control" name="bid_price"><br>
                                                       <input type = "hidden" name = "prod_id" value = '{{ prod[0] }}' >
                                                       <input type = "hidden" name = "far_id" value = '{{ d[prod[4]][0] }}' >
                                                       <input type = "hidden" name = "far_price" value = '{{ prod[2] }}' >
